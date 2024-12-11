@@ -1,0 +1,6 @@
+@ContractManagementSystemCleanArchAPI_HostAddress = http://localhost:5073
+
+GET {{ContractManagementSystemCleanArchAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
