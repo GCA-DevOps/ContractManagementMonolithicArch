@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Updateprofile.css" asp-append-version="true" />
+    <title>Admin Profile</title>
+</head>
+<body>
+    <div class="container1">
+        <h2>Update Profile</h2>
+    </div>
+    <br />
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control mb-3" id="firstName">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control mb-3" id="lastName">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="employeeNumber">Employee Number</label>
+                <input type="text" class="form-control mb-3" id="EmployeeNumber">
+            </div>
+            <div class="form-group col-md-6 dropdown-container">
+                <label for="authorizationLevel">Authorization Level</label>
+                <div class="custom-select-wrapper">
+                    <select class="form-control custom-select mb-3" id="authorizationLevelDropdown">
+                        <option value="" selected disabled hidden>Select</option>
+                        <option value="admin">Admin</option>
+                        <option value="approver">Approver</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input type="email" class="form-control mb-3" id="email">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" class="form-control mb-3" pattern="\d*" id="phoneNumber">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="alternativePhoneNumber">Alternative Phone Number</label>
+                <input type="text" class="form-control mb-3" id="alternativePhoneNumber">
+            </div>
+        </div>
+        <div class="form-group col-md-12 text-center">
+            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+        </div>
+    </form>
+</body>
+</html>
+
+
+
+

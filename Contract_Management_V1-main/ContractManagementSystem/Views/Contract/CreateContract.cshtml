@@ -1,0 +1,169 @@
+﻿@using ContractManagementSystem.Models
+@using ContractManagementSystem.Models.ContractManagement
+@using ContractManagementSystem.ViewModels
+@model CreateContractVm
+
+@{
+    ViewData["Title"] = "Contract Creation";
+    var departments = ViewBag.Departments as SelectList;
+    var selectedContracts = ViewBag.SelectedContracts as string;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Contract Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/ContractCreation.css" asp-append-version="true" />
+</head>
+<body>
+    <main id="main" class="main">
+        <h2 class="text-center" style="color: maroon;">Create New Contract</h2>
+        <h3>Basic Details</h3>
+        <form method="post" asp-action="CreateContract" enctype="multipart/form-data">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <!-- Party Name -->
+                <div class="form-group col-md-6">
+                    <label asp-for="PartyName"></label>
+                    <input type="text" asp-for="PartyName" placeholder="Contract Party" class="form-control">
+                    <span asp-validation-for="PartyName" class="text-danger"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group col-md-6">
+                    <label asp-for="Email"></label>
+                    <input type="email" asp-for="Email" placeholder="Email Address" class="form-control">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Contract Type -->
+                <div class="form-group col-md-6">
+                    <label asp-for="ContractType">Contract Type:</label>
+                    <select asp-for="ContractType" asp-items="Html.GetEnumSelectList<Predefined_ContractTypes>()">
+                        <option value="">Select Contract Type</option>
+                    </select>
+                    <span asp-validation-for="ContractType" class="text-danger"></span>
+                </div>
+
+                <!-- Requester Name -->
+                <div class="form-group col-md-6">
+                    <label asp-for="RequesterName">Requester Name:</label>
+                    <input asp-for="RequesterName" type="text" class="form-control" placeholder="Name">
+                    <span asp-validation-for="RequesterName" class="text-danger"></span>
+                </div>
+
+                <!-- Selected Department -->
+                <div class="form-group col-md-6">
+                    <label asp-for="SelectedDepartment"></label>
+                    <select asp-for="SelectedDepartment" class="form-control" asp-items="departments">
+                        <option value="">Select Department</option>
+                    </select>
+                    <span asp-validation-for="SelectedDepartment" class="text-danger"></span>
+                </div>
+
+                <!-- Contract Value -->
+                <div class="form-group col-md-6">
+                    <label asp-for="ContractValue">Contract Value</label>
+                    <input asp-for="ContractValue" type="number" class="form-control" placeholder="Enter Amount">
+                    <span asp-validation-for="ContractValue" class="text-danger"></span>
+                </div>
+
+                <!-- Payment Structure -->
+                <div class="form-group col-md-6">
+                    <label asp-for="PaymentStructure">Payment Structure</label>
+                    <select asp-for="PaymentStructure" asp-items="Html.GetEnumSelectList<Predefined_PaymentStructure>()">
+                        <option value="">Please select a Payment Structure</option>
+                    </select>
+                    <span asp-validation-for="PaymentStructure" class="text-danger"></span>
+                </div>
+
+                <!-- Start Date -->
+                <div class="form-group col-md-6">
+                    <label asp-for="StartDate">Contract Effective Date</label>
+                    <input asp-for="StartDate" class="form-control" type="date" placeholder="Select start date" id="startDate">
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+
+                <!-- End Date -->
+                <div class="form-group col-md-6">
+                    <label asp-for="EndDate">Contract End Date</label>
+                    <input asp-for="EndDate" class="form-control" type="date" placeholder="Select End date">
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+
+                <!-- Contract Term -->
+                <div class="form-group col-md-12">
+                    <fieldset>
+                        <legend>Contract Term</legend>
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="ContractTerm" value="Definite" type="radio" checked>
+                            <label class="form-check-label">Definite</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="ContractTerm" value="Indefinite" type="radio">
+                            <label class="form-check-label">Indefinite</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- Termination Notice Period -->
+                <div class="form-group col-md-6">
+                    <label asp-for="TerminationNoticePeriod">Termination Notice Period (Optional):</label>
+                    <input asp-for="TerminationNoticePeriod" class="form-control" placeholder="E.g. 30">
+                    <span asp-validation-for="TerminationNoticePeriod" class="text-danger"></span>
+                </div>
+
+                <!-- Contract File Upload -->
+                <div class="form-group col-md-12">
+                    <label asp-for="ContractFile">Upload Contract:</label>
+                    <input asp-for="ContractFile" type="file" class="form-control-file">
+                    <small class="form-text text-muted">Select a file to upload.</small>
+                </div>
+
+                <!-- Display Selected Contracts -->
+                @if (!string.IsNullOrEmpty(selectedContracts))
+                {
+                    <div class="form-group col-md-12">
+                        <label>Selected Contract Types:</label>
+                        <ul>
+                            @foreach (var contract in selectedContracts.Split(','))
+                            {
+                                <li>@contract</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <!-- Submit Button -->
+                <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-primary">Save and Continue</button>
+                </div>
+            </div>
+        </form>
+    </main>
+</body>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+    <script>
+        // Set the minimum date to today's date for the start date input
+        document.addEventListener("DOMContentLoaded", function () {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById("startDate").setAttribute('min', today);
+        });
+
+        // Ensure end date is after the start date
+        document.getElementById('endDate').addEventListener('change', function () {
+            var startDate = new Date(document.getElementById('startDate').value);
+            var endDate = new Date(this.value);
+            if (endDate < startDate) {
+                alert("End date must be after the start date.");
+                this.value = "";
+            }
+        });
+    </script>
+}
+</html>

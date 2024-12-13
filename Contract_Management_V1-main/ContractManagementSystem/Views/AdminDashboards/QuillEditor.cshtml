@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var templateContent = ""; // Initialize template content variable
+    if (ViewBag.ContractTemplates != null)
+    {
+        templateContent = ViewBag.ContractTemplates.ToString(); // Assign template content if it exists
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Contract Template</title>
+    <!-- Include Quill CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@latest"></script>
+    <!-- Quill styles (optional) -->
+    <link href="https://cdn.jsdelivr.net/npm/quill/dist/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+<main id="main" class="main">
+       
+    <h1>Edit Contract Template</h1>
+    <!-- Quill Editor -->
+    <div id="editor"></div>
+
+    <!-- Form for submitting the edited contract content -->
+    <form id="contractForm" method="POST">
+        <!-- Hidden input field to store Quill content -->
+        <input type="hidden" id="contractContent" name="contractContent">
+        <button type="submit">Save Contract</button>
+    </form>
+
+    <!-- JavaScript -->
+    <script>
+        // Load contract template content into Quill Editor
+        var quill = new Quill('#editor', {
+            theme: 'snow',  // Choose the theme you prefer
+            placeholder: 'Edit your contract here...',
+        });
+        quill.root.innerHTML = '@Html.Raw(templateContent)'; // Set template content
+
+        // Handle form submission
+        document.getElementById('contractForm').addEventListener('submit', function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Get edited contract content from Quill Editor
+            var contractContent = quill.root.innerHTML;
+
+            // Set the content to the hidden input field
+            document.getElementById('contractContent').value = contractContent;
+
+            // Submit the form
+            this.submit();
+        });
+
+        // Function to open contract template in Quill Editor
+        function openContractTemplateEditor(templateName) {
+            // Make an AJAX request to fetch the content of the contract template
+            $.ajax({
+                url: '/AdminDashboards/QuillEditor',
+                type: 'GET',
+                data: { templateName: templateName },
+                success: function (data) {
+                    // Load the content into the Quill Editor
+                    quill.root.innerHTML = data;
+                },
+                error: function () {
+                    // Handle error
+                    alert('Failed to load contract template content.');
+                }
+            });
+        }
+    </script>
+      
+</main>
+</body>
+</html>

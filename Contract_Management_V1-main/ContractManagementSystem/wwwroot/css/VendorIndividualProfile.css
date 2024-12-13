@@ -1,0 +1,117 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #5b5b5b;
+    background-size: cover;
+    background-attachment: fixed;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.main {
+    padding: 5px;
+    height: 100vh;
+    width: 50vw;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* vh stands for viewport height */
+    background-color: #F7F4EB;
+    /* height: 100vh;*/
+    padding: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+form {
+    width: 100%; /* adjust this value to control the form's width */
+    max-width: 600px; /* Ensures the form does not exceed a certain width */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    form {
+        width: 100%; /* On smaller screens, make the form take full width */
+    }
+
+    .main {
+        padding: 10px; /* Adjusted padding for smaller screens */
+        width: 100%;
+    }
+
+    .form-group {
+        width: 100%; /* Ensure form groups take full width on smaller screens */
+    }
+}
+
+.container1 {
+    background-color: #742626;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    position: relative;
+    padding: 50px 50px 50px 50px;
+    margin-top: auto;
+}
+
+.navbar {
+    background-image: none;
+}
+
+h2 {
+    text-transform: uppercase;
+    font-size: 40px;
+    font-weight: bolder;
+    color: #ffff;
+    text-align: center;
+}
+
+.form-group {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure form groups take full width */
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px; /* Adds some space between label and input */
+}
+
+input[type="text"], input[type="email"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Adds some space between inputs */
+}
+
+button[type="submit"] {
+    padding: 16px 32px;
+    background-color: #742626;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin: 0 auto;
+}
+
+    button[type="submit"]:hover {
+        background-color: #591d1d;
+    }

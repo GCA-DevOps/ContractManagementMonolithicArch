@@ -1,0 +1,215 @@
+﻿@{
+    ViewData["Title"] = "Clauses";
+    Layout = "_Layout";
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#clauseTable').DataTable();
+
+            // Search functionality
+            $('#searchInput').on('keyup', function () {
+                table.search($(this).val()).draw();
+            });
+
+            $('.dropdown-menu').on('click', '.dropdown-item', function (event) {
+                var action = $(this).data('action');
+                var row = $(this).closest('tr');
+                var id = row.data('id');
+
+                if (action === 'duplicate') {
+                    duplicateContent(id);
+                } else if (action === 'download') {
+                    downloadPdf(row);
+                } else if (action === 'delete') {
+                    deleteRow(row, id);
+                }
+
+                // Ensure dropdown retracts after selection
+                var dropdown = $(this).closest('.dropdown');
+                var dropdownToggle = dropdown.find('[data-bs-toggle="dropdown"]');
+                var dropdownMenu = dropdown.find('.dropdown-menu');
+
+                if (dropdownMenu.hasClass('show')) {
+                    dropdownToggle.dropdown('toggle');
+                }
+            });
+        });
+
+        function duplicateContent(id) {
+            $.ajax({
+                url: '/Clause/Duplicate',
+                type: 'POST',
+                data: {
+                    id: id,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (result) {
+                    if (result.success) {
+                        // Add new row to the table
+                        var newRow = `
+                                            <tr data-id="${result.newId}">
+                                                <td><a href="/Clause/ViewDocument/${result.newId}">${result.newName}</a></td>
+                                                <td>${result.newClauseType}</td>
+                                                <td>${result.newUserName}</td>
+                                                <td>${result.newDateModified}</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <a class="icon" href="#" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                                            </svg>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                                            <li><a class="dropdown-item" href="#" data-action="duplicate">Duplicate</a></li>
+                                                            <li><a class="dropdown-item" href="#" data-action="download">Download as PDF</a></li>
+                                                            <li><hr class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" href="#" data-action="delete">Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>`;
+                        $('#clauseTable tbody').append(newRow);
+                    } else {
+                        alert(result.message || 'Error duplicating clause');
+                    }
+                },
+                error: function (err) {
+                    alert('Error duplicating clause');
+                }
+            });
+        }
+
+        function downloadPdf(row) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            var content = `
+                                Name: ${row.find('td').eq(0).text()}
+                                Clause Type: ${row.find('td').eq(1).text()}
+                                Modified By: ${row.find('td').eq(2).text()}
+                                Modified On: ${row.find('td').eq(3).text()}
+                                Data: ${row.find('td').eq(4).text()}
+                            `;
+            doc.text(content, 10, 10);
+            doc.save("clause.pdf");
+        }
+
+        function deleteRow(row, id) {
+            if (confirm('Are you sure you want to delete this clause?')) {
+                $.ajax({
+                    url: '/Clause/Delete',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            row.remove();
+                        } else {
+                            alert(result.message || 'Error deleting clause');
+                        }
+                    },
+                    error: function (err) {
+                        alert('Error deleting clause');
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            $('.view-content').on('click', function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/Clause/GetContent',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#modalContent').html(result.content);
+                            $('#viewContentModal').modal('show');
+                        } else {
+                            alert('Error retrieving content');
+                        }
+                    },
+                    error: function (err) {
+                        alert('Error retrieving content');
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+@* Include the anti-forgery token *@
+@Html.AntiForgeryToken()
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Clauses</h1>
+        <div class="d-flex justify-content-between mb-3">
+           
+            <div>
+                <a class="btn btn-primary" asp-action="ClauseLibrary" asp-controller="Clause">New Clause</a>
+            </div>
+        </div>
+    </div><!-- End Page Title -->
+
+    <table id="clauseTable" class="table datatable">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Clause Type</th>
+                <th scope="col">Modified By</th>
+                <th scope="col">Modified On</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var clause in Model)
+            {
+                <tr data-id="@clause.Id">
+                    <td><a href="/Clause/ViewDocument/@clause.Id" target="_blank">@clause.Name</a></td>
+                    <td>@clause.ClauseType</td>
+                    <td>@clause.UserName</td>
+                    <td>@clause.DateModified.ToShortDateString()</td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="icon" href="#" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="#" data-action="duplicate">Duplicate</a></li>
+                                <li><a class="dropdown-item" href="#" data-action="download">Download as PDF</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" data-action="delete">Delete</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Modal to display rich text content -->
+    <div class="modal fade" id="viewContentModal" tabindex="-1" aria-labelledby="viewContentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewContentModalLabel">Clause Content</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalContent" class="ql-editor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

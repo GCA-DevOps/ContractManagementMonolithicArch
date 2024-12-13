@@ -1,0 +1,156 @@
+﻿/* Base styles */
+body {
+    background-image: url('../Project Images/contract management system.jpeg');
+    background-size: cover;
+    background-position: center;   
+}
+
+h1.page-title {
+    text-align: center;
+    margin-top: 1%;
+    font-size: 1.2rem;
+    color: black;
+    font-weight: bold;
+}
+
+.card {
+    background-color: #f7f4eb;
+    width: 100%; /* Adjusted width for responsiveness */
+    max-width: 700px; /* Adjusted max-width */
+    margin: auto;
+    margin-top: 1%;
+    padding: 10px; /* Added padding for better spacing */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    height: 10%;
+}
+
+.card-title {
+    font-weight: normal;
+    color: black;
+    text-align: center; /* Center align card title */
+}
+
+.card img {
+    display: block; /* Ensure image is block-level element */
+    width: 60%;
+    height: auto;
+    margin: 0 auto; /* Center align image */
+    margin-bottom: 20px; /* Added margin for better spacing */
+}
+
+.form-control::placeholder {
+    font-size: 12px;
+    color: gray;
+    border-radius: 5px; /* Increase border-radius for placeholder */
+}
+
+.form-floating {
+    margin-bottom: 5px !important;
+}
+
+.col-12 {
+    /* Assuming this class defines a column layout with full width */
+}
+
+#loginButton:hover {
+    background-color: firebrick;
+}
+
+#loginButton {
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-primary {
+    background-color: firebrick; /* Example color, adjust as needed */
+    color: white; /* Ensures the text is readable against the background */
+    border-color: white; /* Matches the background color */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+    .btn-custom-primary:hover {
+        background-color: darkred; /* Changes the background color on hover */
+        border-color: firebrick; /* Changes the border color on hover */
+    }
+
+.password-toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 11%;
+    cursor: pointer;
+}
+
+    .password-toggle-btn i {
+        font-size: 12px;
+    }
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    /* Adjust styles for tablets and smaller devices */
+    .card {
+        max-width: 100%; /* Adjust max-width for smaller screens */
+    }
+    .card {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    /* Adjust styles for mobile devices */
+    
+}
+
+/* Additional styles for the login page */
+
+/* Main container */
+.container {
+    height: 100vh; /* Make the container full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
+}
+
+/* Main section */
+.section.register {
+    background-color:transparent; /* Semi-transparent white background */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Form labels */
+.form-label {
+    color: black; /* Label text color */
+    font-weight: bold; /* Bold font weight */
+}
+
+/* Form input fields */
+.form-control {
+    border-radius: 5px; /* Rounded corners for input fields */
+}
+
+/* Form check input */
+.form-check-input {
+    margin-right: 5px; /* Add space between checkbox and label */
+}
+
+/* Forgot password link */
+.text-center p.small {
+    margin-top: 10px; /* Add margin to the top */
+    font-size: 14px; /* Increase font size */
+}
+
+/* Password visibility toggle button */
+.password-toggle-btn {
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+/* Responsive styles for small screens */
+@media screen and (max-width: 576px) {
+    /* Adjust styles for mobile devices */
+    .section.register {
+        padding: 20px; /* Increase padding for smaller screens */
+    }
+
+    .password-toggle-btn {
+        top: 16%; /* Adjust position for smaller screens */
+    }
+}

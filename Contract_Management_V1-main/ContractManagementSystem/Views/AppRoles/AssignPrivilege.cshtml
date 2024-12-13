@@ -1,0 +1,42 @@
+﻿@using ContractManagementSystem.ViewModels
+
+@model ContractManagementSystem.Models.ManagePrivilegesViewModel
+
+@{
+    ViewData["Title"] = "Assign Privilege";
+    var roles = ViewBag.Roles as List<SelectListItem>;
+    var privileges = ViewBag.Privileges as List<SelectListItem>;
+}
+
+<h2>Assign Privilege to Role</h2>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<form asp-action="AssignPrivilege" method="post">
+    <div class="form-group">
+        <label asp-for="RoleId">Select Role</label>
+        <select asp-for="RoleId" class="form-control" asp-items="roles"></select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PrivilegeIds">Select Privilege</label>
+        <select asp-for="PrivilegeIds" class="form-control" asp-items="privileges"></select>
+        <span asp-validation-for="PrivilegeIds" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Assign</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

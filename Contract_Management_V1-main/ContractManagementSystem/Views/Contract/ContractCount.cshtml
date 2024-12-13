@@ -1,0 +1,10 @@
+﻿@model ( int ActiveCount, int PendingCount, int RejectedCount, int ExpiredCount,int DraftCount)
+
+<main id="main" class="main">
+<h1> contract counts</h1>
+<p> total Active contracts:@Model.ActiveCount</p>
+<p> total Pending contracts:@Model.PendingCount</p>
+<p> total Rejected contracts:@Model.RejectedCount</p>
+<p> total Expired contracts:@Model.ExpiredCount</p>
+ <p> total Draft contracts:@Model.DraftCount</p>
+</main>

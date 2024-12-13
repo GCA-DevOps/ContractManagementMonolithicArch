@@ -1,0 +1,224 @@
+﻿@model IEnumerable<ContractTable>
+
+<link rel="stylesheet" href="~/css/ContractTable.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+@using (Html.BeginForm("SubmitContracts", "Contract", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Contracts</h1>
+        </div>
+
+        <div class="row col-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Filter Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        All Contracts
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                        <li><a class="dropdown-item active" href="#" data-filter="all">All Contracts</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="active">All Active</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="in-progress">All In Progress</a></li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div>
+                    <!-- Hidden file input for importing contracts -->
+                    <input type="file" id="importContractInput" name="contractFile" style="display: none;" accept=".docx,.pdf,.xlsx" />
+
+                    <!-- Import Contract button triggering the file input -->
+                    <button type="button" class="btn btn-outline-primary me-2" id="importContractButton">
+                        <i class="fa fa-upload"></i> Import Contract
+                    </button>
+
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contractModal">
+                        New Contract
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Party</th>
+                            <th>Contract Type</th>
+                            <th>Contract Value</th>
+                            <th>Payment Structure</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Contract Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.ContractId</td>
+                                    <td>@item.ContractedParty</td>
+                                    <td>@item.ContractType</td>
+                                    <td>@item.ContractValue</td>
+                                    <td>@item.PaymentStructure</td>
+                                    <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@item.EndDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@item.Status</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="actionsDropdown">
+                                                <li><a class="dropdown-item" asp-controller="Contract" asp-action="Duplicate" asp-route-id="@item.ContractId"><i class="fa fa-copy"></i> Create a Copy</a></li>
+                                                <li><a class="dropdown-item text-danger" asp-controller="Contract" asp-action="Delete" asp-route-id="@item.ContractId" onclick="return confirm('Are you sure you want to delete this contract?');"><i class="fa fa-trash"></i> Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-center mt-4">
+                @Html.Raw(ViewBag.Pagination)
+            </div>
+        </div>
+
+        <!-- Hidden input field to store selected contract types -->
+        <input type="hidden" id="selectedContracts" name="selectedContracts" value="" />
+    </main>
+}
+
+<!-- Modal HTML -->
+<div class="modal fade" id="contractModal" tabindex="-1" aria-labelledby="contractModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg-col-6">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contractModalLabel">Select Contract Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Search bar -->
+                <div class="mb-3">
+                    <input type="text" id="searchContract" class="form-control" placeholder="Search contract types...">
+                </div>
+
+                <!-- Contract Types List -->
+                <h6>All Contract Types</h6>
+                <ul id="contractTypesList" class="list-group">
+                    <li class="list-group-item" data-contract="Joint Venture Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Joint Venture Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Non-Disclosure Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Non-Disclosure Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Custom Contract">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Custom Contract
+                    </li>
+                    <li class="list-group-item" data-contract="Franchise Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Franchise Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Intellectual Property Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Intellectual Property Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Lease Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Lease Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Licensing Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Licensing Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Non-Compete Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Non-Compete Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Permanent Employment Contract">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Permanent Employment Contract
+                    </li>
+                    <li class="list-group-item" data-contract="Temporary Employment Contract">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Temporary Employment Contract
+                    </li>
+                    <li class="list-group-item" data-contract="Service Level Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Service Level Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Service Contract">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Service Contract
+                    </li>
+                    <li class="list-group-item" data-contract="Procurement Agreement">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Procurement Agreement
+                    </li>
+                    <li class="list-group-item" data-contract="Vendor Contract">
+                        <span class="check-icon" style="display: none;">&#10003;</span> Vendor Contract
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="continueButton" class="btn btn-primary">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Filter, Import, and Modal -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Filter Dropdown
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                // Remove active class from all items
+                document.querySelectorAll('.dropdown-item').forEach(el => el.classList.remove('active'));
+                // Add active class to the clicked item
+                this.classList.add('active');
+                // Update the button text to the selected filter
+                document.getElementById('filterDropdown').textContent = 'Filter: ' + this.textContent.trim();
+            });
+        });
+
+        // Import Contract Functionality
+        document.getElementById('importContractButton').addEventListener('click', function () {
+            document.getElementById('importContractInput').click();
+        });
+
+        // Search functionality in Modal
+        document.getElementById('searchContract').addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            document.querySelectorAll('#contractTypesList .list-group-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        // Handle item selection in Modal
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('list-group-item')) {
+                e.target.classList.toggle('active');
+                const checkIcon = e.target.querySelector('.check-icon');
+                checkIcon.style.display = e.target.classList.contains('active') ? 'inline' : 'none';
+            }
+        });
+
+        document.getElementById('continueButton').addEventListener('click', function () {
+            const selectedItems = document.querySelectorAll('#contractTypesList .list-group-item.active');
+            if (selectedItems.length > 0) {
+                const selectedContracts = Array.from(selectedItems).map(item => item.getAttribute('data-contract')).join(',');
+                document.getElementById('selectedContracts').value = selectedContracts;
+
+                // Redirect to the CreateContract page with selected contracts as a query parameter
+                window.location.href = '@Url.Action("CreateContract", "Contract")' + '?selectedContracts=' + encodeURIComponent(selectedContracts);
+            } else {
+                alert('Please select at least one contract type.');
+            }
+        });
+    });
+</script>

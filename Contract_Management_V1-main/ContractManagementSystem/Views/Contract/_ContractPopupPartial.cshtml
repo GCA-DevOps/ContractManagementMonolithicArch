@@ -1,0 +1,59 @@
+﻿@{
+    var recentContracts = ViewData["RecentContracts"] as List<string> ?? new List<string>();
+    var allContracts = ViewData["AllContracts"] as List<string> ?? new List<string>();
+}
+
+<!-- Search Bar -->
+<div class="mb-3">
+    <input type="text" id="searchContract" class="form-control" placeholder="Search contract types...">
+</div>
+
+<!-- Categories -->
+<div class="nav nav-tabs mb-3" id="contractTabs" role="tablist">
+    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">All Contract Types</button>
+</div>
+
+<div class="tab-content" id="contractTabsContent">
+    <!-- All Contract Types Tab -->
+    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+        <!-- Recently Used Contracts -->
+        <div class="mb-3">
+            <h6>Recently Used</h6>
+            <ul id="recentContractTypesList" class="list-group">
+                @if (recentContracts.Any())
+                {
+                    @foreach (var contract in recentContracts)
+                    {
+                        <li class="list-group-item" data-contract="@contract">
+                            <span class="check-icon" style="display: none;">&#10003;</span> @contract
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item">No recent contracts found.</li>
+                }
+            </ul>
+        </div>
+
+        <!-- All Contract Types -->
+        <div>
+            <h6>All Contract Types</h6>
+            <ul id="allContractTypesList" class="list-group">
+                @if (allContracts.Any())
+                {
+                    @foreach (var contract in allContracts)
+                    {
+                        <li class="list-group-item" data-contract="@contract">
+                            <span class="check-icon" style="display: none;">&#10003;</span> @contract
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item">No contract types available.</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

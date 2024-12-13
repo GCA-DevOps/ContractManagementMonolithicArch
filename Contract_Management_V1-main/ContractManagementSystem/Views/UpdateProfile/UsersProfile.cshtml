@@ -1,0 +1,266 @@
+﻿@using ContractManagementSystem.Models;
+
+@{
+    ViewData["Title"] = "Admin Profile";
+}
+
+@{
+    ViewBag.IncludeGlobalStyles = false;
+}
+
+<title>@ViewData["Title"]</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+<style>
+    h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+        font-weight: bolder;
+        text-transform: uppercase;
+    }
+    h2{
+        font-size: 10px;
+    }
+    .card-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .profile-picture-container {
+        position: relative;
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-picture-edit-icon {
+        position: absolute;
+        top: 50%;
+        right: 20%;
+        transform: translate(-50%, -50%);
+        font-size: 40px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .profile-overview-container {
+        display: flex;
+        align-items: center;
+        width: 80%;
+    }
+
+    .profile-overview-content {
+        flex-grow: 1;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #808080;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-menu a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-menu a:hover {
+                background-color: #A9A9A9;
+            }
+</style>
+<body>
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Profile</h1>
+        </div>
+
+        <section class="section profile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <h5 class="card-title">Profile Overview</h5>
+                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                                <div class="profile-picture-and-name d-flex flex-column align-items-center">
+                                    <div class="profile-picture-container">
+                                        <img src="@Url.Action("GetProfilePicture", "UpdateProfile")" alt="Profile Picture" class="rounded-circle">
+                                        <i class="bi bi-camera profile-picture-edit-icon" onclick="toggleDropdown();"></i>
+                                        <div id="dropdownMenu" class="dropdown-menu">
+                                            <a href="#" onclick="editProfilePicture();">Edit Picture</a>
+                                            <a href="#" onclick="deleteProfilePicture();">Delete Picture</a>
+                                        </div>
+                                    </div>
+                                    <h2>@User.Identity!.Name</h2>
+                                </div>
+                                <br />
+                                <div class="profile-overview-container">
+                                    <div class="profile-overview-content">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Full Name</div>
+                                            <div class="col-lg-9 col-md-8">@User.Identity!.Name</div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Employee Number</div>
+                                            <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Authorization Level</div>
+                                            <div class="col-lg-9 col-md-8">Web Designer</div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Email</div>
+                                            <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Phone</div>
+                                            <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Alternative Phone Number</div>
+                                            <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                                        </div>
+                                        <br />
+                                        <div class="text-center">
+                                            <a href="@Url.Action("AdminProfile", "UpdateProfile")" class="btn btn-primary">Edit Profile</a>
+                                        </div>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" asp-controller="UpdateProfile" asp-action="UploadProfilePicture" style="display: none;">
+                            <input type="file" id="profileImage" name="profileImage" onchange="this.form.submit();">
+                        </form>
+                    </div>
+                </div>
+
+
+                <!-- Settings Card -->
+               @*  <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body pt-3">
+                                <h5 class="card-title">Settings</h5>
+                                <form>
+                                    <div class="row mb-3">
+                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                                                <label class="form-check-label" for="changesMade">
+                                                    Changes made to your account
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                                                <label class="form-check-label" for="newProducts">
+                                                    Information on new products and services
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="proOffers">
+                                                <label class="form-check-label" for="proOffers">
+                                                    Marketing and promo offers
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
+                                                <label class="form-check-label" for="securityNotify">
+                                                    Security alerts
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> *@
+
+                <!-- Change Password Card -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body pt-3">
+                                <h5 class="card-title">Change Password</h5>
+                                <form>
+                                    <div class="row mb-3">
+                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="password" type="password" class="form-control" id="currentPassword">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Change Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        }
+        function editProfilePicture() {
+            document.getElementById('profileImage').click();
+        }
+
+        function deleteProfilePicture() {
+            if (confirm('Are you sure you want to delete your profile picture?')) {
+                fetch('@Url.Action("DeleteProfilePicture", "UpdateProfile")', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Failed to delete profile picture.');
+                    }
+                });
+            }
+        }
+    </script>
+</body>

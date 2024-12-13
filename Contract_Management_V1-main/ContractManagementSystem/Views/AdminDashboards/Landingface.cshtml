@@ -1,0 +1,171 @@
+﻿ @model ( int ActiveCount, int PendingCount, int RejectedCount, int ExpiredCount)
+
+<head>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="~/css/AdminLandingPage.css" asp-append-version="true" />
+
+
+
+</head>
+
+
+
+<div class="container1">
+
+	<div class="col-3">
+		<!-- sidebar -->
+		<!-- <div class="list-group list-group-flush">
+			<a href="#" class="list-group-item list-group-item-action">
+				<i class="fa fa-user"></i><br />
+				Profile
+			</a>
+			<a href="#" class="list-group-item list-group-item-action">Dashboard</a>
+			<a href="#" class="list-group-item list-group-item-action">Create Contract</a>
+			<a href="#" class="list-group-item list-group-item-action">Contract Gallery</a>
+			<div class="list-group list-group-flush">
+				<a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Internal Contracts</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="~/ContractTemplates/Temporary employment Agreement.docx">Temporary Employment Agreement</a>
+					<a class="dropdown-item" href="~/ContractTemplates/Permanent Employment Contract.docx">Permanent Employment Contract</a>
+					<a class="dropdown-item" href="~/ContractTemplates/Non Disclosure Agreement.docx">Non Disclosure Agreement</a>
+					<a class="dropdown-item" href="~/ContractTemplates/Non Compete Agreement Template.docx">Non Compete Agreement</a>
+					<a class="dropdown-item" href="~/ContractTemplates/INTELLECTUAL PROPERTY AGREEMENT TEMPLATE.docx">Intellectual Property Agreement</a>
+					<a class="dropdown-item" href="~/ContractTemplates/Service Level Agreement Template.docx">Service Level Agreement</a>
+					<a class="dropdown-item" href="~/ContractTemplates/Procurement Agreement.docx">Procurement Agreement</a>
+				</div>
+			</div>
+			<a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">External Contracts</a>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="~/ContractTemplates/Service_Contract.txt">Service Contract</a>
+				<a class="dropdown-item" href="~/ContractTemplates/Vendor Contract.docx">Vendor Contract</a>
+				<a class="dropdown-item" href="~/ContractTemplates/Consulting Agreement Template.docx">Consulting Contract</a>
+				<a class="dropdown-item" href="#">Outsourccing Employment</a>
+				<a class="dropdown-item" href="~/ContractTemplates/LEASE AGREEMENT.docx">Lease Agreement</a>
+				<a class="dropdown-item" href="~/ContractTemplates/LICENSING AGREEMENT .docx">Licensing Agreement</a>
+				<a class="dropdown-item" href="~/ContractTemplates/Franchise Agreement.docx">Franchise Agreement</a>
+				<a class="dropdown-item" href="#">Joint Venture Agreement</a>
+			</div>
+			<a href="#" class="list-group-item list-group-item-action">Upload Contracts</a>
+			<a href="#" class="list-group-item list-group-item-action">Reports</a>
+		</div> -->
+		  <!--<partial name="_SideBarPartial"></partial>-->
+	</div>
+	<div class="col">
+
+		<!-- <div class="list-group list-group-horizontal  col-5">
+
+			<div class="column">
+				<div class="card">
+					<h3>Active Contracts </h3>
+					<p>0</p>
+
+				</div>
+			</div>
+
+			<div class="column">
+				<div class="card">
+					<h3>Pending Contracts</h3>
+					<p>0</p>
+
+				</div>
+			</div>
+
+			<div class="column">
+				<div class="card">
+					<h3>Rejected Contracts</h3>
+					<p>0</p>
+
+				</div>
+			</div>
+
+			<div class="column">
+				<div class="card">
+					<h3>Expired Contracts</h3>
+					<p>0</p>
+
+				</div>
+			</div>
+			<div class="column">
+				<div class="card">
+					<h3>Users</h3>
+					<p>0</p>
+
+			</div>
+		</div>
+		</div> -->
+		@*	<div class="cards">
+		<ul class=" list-group list-group-horizontal">
+		<li class="list-group-item">ACTIVE CONTRACTS<span class="badge">0</span></li>
+		<li class="list-group-item">PENDING CONTRACTS <span class="badge">0</span></li>
+		<li class="list-group-item">REJECTED CONTRACTS<span class="badge">0</span></li>
+		<li class="list-group-item">EXPIRED CONTRACTS<span class="badge">0</span></li>
+		</ul>
+		</div>*@
+		<partial name="_StatusPartialView"></partial>
+
+
+
+		<div class="row">
+			<div class="col">
+				@* <div class="chartcontainer mt-5">
+				<canvas id="reportAnalyticsChart"></canvas>
+				</div>
+				<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+				<script>
+				var ctx = document.getElementById('reportAnalyticsChart').getContext('2d');
+				var reportAnalyticsChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+				labels: ['2019', '2020', '2021', '2022'],
+				datasets: [{
+				label: 'Approved Contracts',
+				data: [12, 19, 3, 5],
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+				borderWidth: 1
+				}, {
+				label: 'Rejected Contracts',
+				data: [22, 17, 33, 25],
+				backgroundColor: 'rgba(75, 192, 192, 0.2)',
+				borderColor: 'rgba(75, 192, 192, 1)',
+				borderWidth: 1
+				}, {
+				label: 'Expired Contracts',
+				data: [5, 8, 15, 10],
+				backgroundColor: 'rgba(255, 206, 86, 0.2)',
+				borderColor: 'rgba(255, 206, 86, 1)',
+				borderWidth: 1
+				}]
+				},
+				options: {
+				plugins: {
+				title: {
+				display: true,
+				text: 'Annual Contract Reports',
+				position: 'top', // This places the title at the top of the graph
+				font: {
+				size: 20,
+				weight: 'bold'
+				}
+				}
+				},
+				scales: {
+				y: {
+				beginAtZero: true
+				}
+				}
+				}
+				});
+				</script> *@
+		
+			</div>
+		</div>
+		<partial name="_AnalyticsPartialView"></partial>
+
+	</div>
+
+
+
+</div>
+

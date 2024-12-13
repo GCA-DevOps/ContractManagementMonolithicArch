@@ -1,0 +1,44 @@
+﻿@model ContractManagementSystem.Models.Reports.ContractReportFilter
+
+@{
+    ViewData["Title"] = "Generate Reports";
+}
+
+<h2>Generate Contract Reports</h2>
+
+<main id="main" class="main">
+
+<form asp-action="Generate" method="post">
+    <div class="form-group col-6">
+        <label asp-for="ContractType"></label>
+        <select asp-for="ContractType" class="form-control">
+            <option value="">All Contract Types</option>
+            <!-- Populate contract types dynamically -->
+            <option value="Type1">Type1</option>
+            <option value="Type2">Type2</option>
+        </select>
+    </div>
+
+    <div class="form-group col-6">
+        <label asp-for="StartDate"></label>
+        <input asp-for="StartDate" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group col-6">
+        <label asp-for="EndDate"></label>
+        <input asp-for="EndDate" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group col-6">
+        <label asp-for="Department"></label>
+        <input asp-for="Department" class="form-control" type="text" placeholder="Department Name" />
+    </div>
+
+    <div class="form-check">
+        <input asp-for="IncludeExpired" class="form-check-input" type="checkbox" />
+        <label asp-for="IncludeExpired" class="form-check-label">Include Expired Contracts</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Generate Report</button>
+</form>
+</main>

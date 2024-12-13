@@ -1,0 +1,91 @@
+﻿@using ContractManagementSystem.ViewModels;
+@model VendorCompanyProfileVM
+
+@{
+    ViewData["Title"] = "Vendor Company Profile";
+}
+@{
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+
+}
+@{
+    ViewBag.IncludeGlobalStyles = false;
+}
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/VendorIndividualProfile.css" asp-append-version="true" />"
+
+<body>
+    <div class="main">
+        <div class="container1">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <div class="form-container">
+            <form asp-action="Edit" asp-controller="VendorCompanyProfile" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="CompanyName"></label>
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+
+                 <div class="form-group">
+                    <label asp-for="RegistrationNumber"></label>
+                    <input asp-for="RegistrationNumber" class="form-control" />
+                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+                </div> 
+
+                 <div class="form-group">
+                    <label asp-for="KraPin"></label>
+                    <input asp-for="KraPin" class="form-control" />
+                    <span asp-validation-for="KraPin" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                 <div class="form-group">
+                    <label asp-for="PhysicalAddress"></label>
+                    <input asp-for="PhysicalAddress" class="form-control" />
+                    <span asp-validation-for="PhysicalAddress" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PostalAddress"></label>
+                    <input asp-for="PostalAddress" class="form-control" />
+                    <span asp-validation-for="PostalAddress" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AlternativePhoneNumber"></label>
+                    <input asp-for="AlternativePhoneNumber" class="form-control" />
+                    <span asp-validation-for="AlternativePhoneNumber" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+</body>
+

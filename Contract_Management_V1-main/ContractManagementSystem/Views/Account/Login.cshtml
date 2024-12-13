@@ -1,0 +1,115 @@
+﻿@using ContractManagementSystem.ViewModels
+@model LoginVm
+@{
+    Layout = "/Views/Shared/LoginLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 col-sm-10">
+                        <!-- Adjusted column sizes for responsiveness -->
+                        <div class="mb-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center mt-3">
+                                        <!-- Logo -->
+                                        <div class="logo text-center">
+                                            <img src="~/Project Images/cms.jpeg" alt="Contract Management System Logo">
+                                            <h1 class="page-title">Contract Management System</h1>
+                                        </div>
+
+                                        <!-- Login Text -->
+@*                                         <div class="pt-2">
+                                            <h2 class="card-title text-center pb-0 fs-4">Login</h2>
+                                        </div >*@
+                                    </div>
+
+                                    <form id="loginForm" class="row g-3 needs-validation" needs-validation method="post" asp-action="Login">
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+                                        <div class="col-12">
+                                            <label asp-for="Email" class="form-label">Email</label>
+                                            <div class="input-group has-validation">
+                                                <input type="email" asp-for="Email" class="form-control" id="yourEmail" placeholder="Enter your email">
+
+                                                <div class="col-12" style="display: flex; flex-direction: column;">
+                                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label asp-for="Password" class="form-label">Password</label>
+                                            <div class="input-group has-validation">
+                                                <input type="password" asp-for="Password" class="form-control" id="yourPassword" placeholder="Enter your password">
+
+                                                <div class="col-12" style="display: flex; flex-direction: column;">
+                                                    <span asp-validation-for="Password" class="text-danger"></span>
+
+                                                    <div class="password-toggle-btn" onclick="togglePasswordVisibility()">
+                                                        <i class="fas fa-eye"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button id="loginButton" class="btn btn-custom-primary w-100" type="submit">Login</button>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <p class="small mb-0"><a href="Account/ForgotPassword">Forgot your password?</a></p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("yourPassword");
+            var passwordToggleBtn = document.querySelector(".password-toggle-btn");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordToggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordField.type = "password";
+                passwordToggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+    </script>
+
+    @section scripts {
+        @{
+            <partial name="_ValidationScriptsPartial"></partial>
+        }
+    }
+</body>
+</html>

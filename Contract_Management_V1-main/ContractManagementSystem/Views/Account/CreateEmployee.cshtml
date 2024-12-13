@@ -1,0 +1,212 @@
+﻿@using ContractManagementSystem.ViewModels
+@model EmployeeRegisterVm
+
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+
+}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css">
+        .float-start{
+            font-weight:bold;
+            color:firebrick;
+        }
+        body {
+            padding: 0px;
+            background-image: url('../Project Images/update.jpeg');
+            background-size: cover;
+        }
+
+        .btn-primary {
+            background-color: firebrick;
+        }
+        .btn-primary:hover{
+            background-color:maroon;
+        }
+        .btn-primary:active{
+            background-color:aquamarine;
+        }
+
+        .Container {
+            padding: 0px;
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            max-height: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color:#f7f4eb;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            justify-content: center;
+            position:relative;
+            left:0;
+            right:0;
+            height:80%;
+            width:80%;
+        }
+
+
+        .Container:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            color: firebrick;
+            text-align: center;
+        }
+
+        @@media screen and (max-width: 600px) {
+            body {
+                padding: 50px; /* Adjust padding for smaller screens */
+                margin: 0;
+                padding: 0;
+            }
+
+            .Container {
+                padding: 10px; /* Adjust padding for smaller screens */
+                max-width: 100%; /* Make the card full width on smaller screens */
+            }
+        }
+
+        @@media screen and (min-width: 1200px) {
+            body {
+                padding: 80px; /* Adjust padding for larger screens */
+            }
+
+            .Container {
+                padding: 50px; /* Adjust padding for larger screens */
+                max-width: 1400px;/* Adjust max-width for larger screens */
+                max-height:1600px;
+            }
+        }
+        label{
+            font-weight:bold;
+        }
+
+    </style>
+</head>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 Container">
+        <h2 class="text-center card-title"><b>Create Employee</b></h2>
+
+        <form asp-action="CreateEmployee" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+
+           <div class="row">
+            <div class=" col-md-6 mb-1">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-1">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-6 mb-1">
+                <label asp-for="OtherName"></label>
+                <input asp-for="OtherName" class="form-control" />
+                <span asp-validation-for="OtherName" class="text-danger"></span>
+            </div>
+                <div class="col-md-6 mb-1">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                </div>
+            <div class="row">
+                <div class="col-md-6 mb-1">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>          
+            <div class="col-md-6 mb-1">
+                <label asp-for="AlternativePhoneNumber"></label>
+                <input asp-for="AlternativePhoneNumber" class="form-control" />
+                <span asp-validation-for="AlternativePhoneNumber" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-6 mb-1">
+                <label asp-for="KraPin"></label>
+                <input asp-for="KraPin" class="form-control" />
+                <span asp-validation-for="KraPin" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-1"></div>
+
+            <div class="row">
+            <div class="col-md-6 mb-1">
+            @if (ViewBag.Roles != null)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SelectedRole)
+                    @Html.DropDownListFor(model => model.SelectedRole, (SelectList)ViewBag.Roles, "Select Role", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedRole, "", new { @class = "text-danger" })
+                </div>
+            }
+            </div>
+            <div class="col-md-6 mb-1">
+            @if (ViewBag.Departments != null)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SelectedDepartment)
+                    @Html.DropDownListFor(model => model.SelectedDepartment, (SelectList)ViewBag.Departments, "Select Department", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedDepartment, "", new { @class = "text-danger" })
+                </div>
+            }
+            </div>
+            </div>
+            
+        @*     <div class="row">
+                    <div class="col-md-6 mb-1">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-1">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+             </div> *@
+             
+            </div>
+           @*  <div class="form-group">
+                <label asp-for="SelectedRoleId">Select Role:</label>
+                <select asp-for="SelectedRoleId" asp-items="@Model.Roles">
+                    <option>Please select a role</option>
+                </select>
+            </div> *@
+
+
+            <div class="row">
+                <div class="=col-8">
+                    <a asp-action="Login" class=" text-decoration-none float-start mt-2">Have an account?</a>
+                </div>
+                <div class="col-4">
+                    <input type="submit" value="Register" class="btn btn-primary btn-lg float-end" />
+                </div>
+            </div>
+
+    </form>
+    </div>
+</div>
+@section scripts {
+    @{
+       // await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <partial name="_ValidationScriptsPartial"></partial>
+    }
+
+}
+
+
+

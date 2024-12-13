@@ -1,0 +1,124 @@
+﻿@using ContractManagementSystem.ViewModels
+@model ContractManagementSystem.ViewModels.RegisterVm
+
+
+@{
+    ViewData["Title"] = "Register";
+
+}
+
+<h2>Register</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="AltPhoneNumber"></label>
+        <input asp-for="AltPhoneNumber" class="form-control" />
+        <span asp-validation-for="AltPhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserType"></label>
+        <select asp-for="UserType" asp-items="Html.GetEnumSelectList<UserType>()" class="form-control" id="userTypeDropdown">
+            <option value="">Select User Type</option>
+        </select>
+        <span asp-validation-for="UserType" class="text-danger"></span>
+    </div>
+
+    <!-- Additional fields based on user type -->
+        <!-- Fields specific to Employee -->
+        <div id="employeeFields" style="display: none;">
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <!-- Add more fields specific to Employee as needed -->
+        </div>
+
+        <!-- Fields specific to VendorCompany -->
+        <div id="vendorCompanyFields" style="display: none;">
+            <div class="form-group">
+                <label asp-for="CompanyName"></label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+            <!-- Add more fields specific to VendorCompany as needed -->
+        </div>
+
+        <!-- Fields specific to VendorIndividual -->
+        <div id="vendorIndividualFields" style="display: none;">
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <!-- Add more fields specific to VendorIndividual as needed -->
+        </div>
+   
+    <br />
+
+    <button type="submit" class="btn btn-primary">Register</button>
+
+    @section Scripts {
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            // Handle visibility of additional fields based on selected user type
+            $('#userTypeDropdown').change(function () {
+                var selectedUserType = $(this).val();
+                $('#additionalFields').hide();
+
+                if (selectedUserType === '@UserType.Employee.ToString()') {
+                    $('#employeeFields').show();
+                } else if (selectedUserType === '@UserType.VendorCompany.ToString()') {
+                    $('#vendorCompanyFields').show();
+                } else if (selectedUserType === '@UserType.VendorIndividual.ToString()') {
+                    $('#vendorIndividualFields').show();
+                }
+            });
+        </script>
+    
+    }
+}
+
+

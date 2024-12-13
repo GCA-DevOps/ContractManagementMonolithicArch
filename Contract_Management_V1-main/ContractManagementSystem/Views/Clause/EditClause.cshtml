@@ -1,0 +1,90 @@
+﻿@* @using ContractManagementSystem.ViewModels
+@model ClauseLibraryVM
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Clause</title>
+    <!-- Include Quill CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        #parent {
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
+            border: 2px solid #ccc;
+            padding: 10px;
+        }
+
+        #editor.ql-container {
+            min-height: 300px;
+            height: calc(100% - 60px) !important;
+        }
+    </style>
+</head>
+<body>
+    <main id="main" class="main">
+        <form method="post" asp-action="EditClause" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" id="editorContent" name="EditorContent" />
+
+            <div class="row mb-3">
+                <h5>Edit Clause</h5>
+                <div class="col-sm-6">
+                    <label asp-for="ClauseType" class="form-label">Clause Type</label>
+                    <select class="form-select" asp-for="ClauseType">
+                        <option value="">Select</option>
+                        <option value="standard">Standard Clause</option>
+                        <!-- Add other options here -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Name" class="col-sm-2 col-form-label">Clause Name</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" asp-for="Name" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="File" class="col-sm-2 col-form-label">Upload Clause</label>
+                <div class="col-sm-6">
+                    <input type="file" class="form-control" asp-for="File" />
+                </div>
+            </div>
+
+            <div id="parent">
+                <div id="editor">
+                    @Html.Raw(Model.EditorContent) <!-- Load existing content into Quill editor -->
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+
+        <!-- Include Quill JS -->
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script>
+            var quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+
+            // Add modules and toolbar configuration
+            quill.getModule('toolbar').add(['bold', 'italic', 'underline', 'strike', '|',
+                'blockquote', 'code-block', 'heading', 'list', 'bullet', 'indent', 'link', 'image', 'video', '|',
+                'clean']);
+
+            // Update hidden input with Quill content on form submit
+            document.querySelector('form').addEventListener('submit', function () {
+                var editorContent = quill.root.innerHTML;
+                document.querySelector('#editorContent').value = editorContent;
+            });
+        </script>
+    </main>
+</body>
+</html>
+ *@

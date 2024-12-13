@@ -1,0 +1,549 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<AppUser> _SignInManager;
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication
+
+
+
+
+
+@{
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Dashboard</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+
+    <link href="assets/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="index.html" class="logo d-flex align-items-center">
+                <img src="assets/img/logo.png" alt="">
+                <span class="d-none d-lg-block">CONTRACT SYSTEM</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+        <div class="search-bar">
+            <form class="search-form d-flex align-items-center" method="POST" action="#">
+                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                <button class="btn"><i class="fa fa-search"></i></button>
+
+            </form>
+        </div><!-- End Search Bar -->
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+                <li class="nav-item d-block d-lg-none">
+
+                </li><!-- End Search Icon-->
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge bg-primary badge-number">0</span>
+                    </a><!-- End Notification Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                        <li class="dropdown-header">
+                            You have 0 new notifications
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li>
+
+
+                        <li class="dropdown-footer">
+                            <a href="#">Show all notifications</a>
+                        </li>
+
+                    </ul><!-- End Notification Dropdown Items -->
+
+                </li><!-- End Notification Nav -->
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge bg-success badge-number">0</span>
+                    </a><!-- End Messages Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+                        <li class="dropdown-header">
+                            You have 0 new messages
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li>
+
+                        <li class="dropdown-footer">
+                            <a href="#">Show all messages</a>
+                        </li>
+
+                    </ul><!-- End Messages Dropdown Items -->
+
+                </li><!-- End Messages Nav -->
+
+                <li class="nav-item dropdown pe-3">
+
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+
+                        <span class="d-none d-md-block dropdown-toggle ps-2">UserName</span>
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>@User.Identity!.Name</h6>
+                            <span>@User.FindFirst(ClaimTypes.Role)?.Value</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                <i class="bi bi-gear"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                                <i class="bi bi-question-circle"></i>
+                                <span>Need Help?</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+
+
+    <aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+
+                </a>
+            </li>
+
+
+            <!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed">
+                    <i class="bi bi-grid"></i>
+                    <span>Home</span>
+
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Reports</span><i class="fa fa-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>Approved Contracts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>Pending Contracts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>Expired Contracts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>Rejected Contracts</span>
+                        </a>
+                    </li>
+                </ul>
+            
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="index.html">
+                    <i class="bi bi-grid"></i>
+                    <span>Settings</span>
+
+                </a>
+            </li>
+
+        </ul>
+
+    </aside><!-- End Sidebar-->
+    <main id="main" class="main">
+
+        <div class="DASHBOARD">
+            <p>Dashboard/Home</p>
+            <p>Contract By Status</p>
+
+        </div><!-- End Page Title -->
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Approved</h5>
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter By</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" data-filter="today">Today</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="month">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#" href="#" data-filter="year">This Year</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <input type="date" class="form-control form-control-sm me-2" id="startDate">
+                                                <input type="date" class="form-control form-control-sm" id="endDate">
+                                                <button class="btn btn-sm btn-primary">Filter</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Pending</h5>
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter By</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" data-filter="today">Today</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="month">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#" href="#" data-filter="year">This Year</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <input type="date" class="form-control form-control-sm me-2" id="startDate">
+                                                <input type="date" class="form-control form-control-sm" id="endDate">
+                                                <button class="btn btn-sm btn-primary">Filter</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Rejected</h5>
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter By</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" data-filter="today">Today</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="month">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#" href="#" data-filter="year">This Year</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <input type="date" class="form-control form-control-sm me-2" id="startDate">
+                                                <input type="date" class="form-control form-control-sm" id="endDate">
+                                                <button class="btn btn-sm btn-primary">Filter</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Expired</h5>
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter By</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" data-filter="today">Today</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="month">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#" href="#" data-filter="year">This Year</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <input type="date" class="form-control form-control-sm me-2" id="startDate">
+                                                <input type="date" class="form-control form-control-sm" id="endDate">
+                                                <button class="btn btn-sm btn-primary">Filter</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <section class="section">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Pending Contracts</h5>
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter By</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" data-filter="approval">Pending Approval</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="negotiation">Pending Negotiation</a></li>
+                                        <li><a class="dropdown-item" href="#" href="#" data-filter="signature">Pending Sign</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                @* <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Nearing Renewal</h5>
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter By</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#" data-filter="today">Today</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="week">This Week</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="month">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="quarter">This Quater</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="30 days">In Next 30 Days</a></li>
+                                        <li><a class="dropdown-item" href="#" href="#" data-filter="quarter">Next Quater</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div> *@
+
+            </div>
+        </section>
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Reports </h5>
+
+                            <!-- Bar Chart -->
+                            <canvas id="barChart" style="max-height: 400px;"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#barChart'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                            datasets: [{
+                                                label: 'Approved Contracts',
+                                                data: [75, 25, 54, 48, 74, 100, 50],
+                                                backgroundColor: 'rgb(200, 173, 127)',
+                                            },
+                                            {
+                                                label: 'Pending Contracts',
+                                                data: [11, 22, 12, 62, 95, 80, 43],
+                                                backgroundColor: 'rgb(146, 42, 46)',
+                                            },
+                                            {
+                                                label: 'Rejected Contracts',
+                                                data: [51, 32, 42, 72, 85, 80, 33],
+                                                backgroundColor: 'rgb(18, 67, 109)',
+                                            },
+                                            {
+                                                label: 'Expired Contracts',
+                                                data: [34, 62, 92, 72, 45, 90, 33],
+                                                backgroundColor: 'rgb(150, 75, 0)',
+                                            },
+                                            ]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Bar Chart -->
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span>CMS GROUP</span></strong>. All Rights Reserved
+        </div>
+
+    </footer><!-- End Footer -->
+
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+
+    <script src="assets/js/main.js"></script>
+
+</body>
+

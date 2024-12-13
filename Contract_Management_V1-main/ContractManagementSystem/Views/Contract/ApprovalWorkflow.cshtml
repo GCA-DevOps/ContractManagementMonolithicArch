@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approvers</title>
+    <link rel="stylesheet" href="~/UI_DEMO.styles.css" asp-append-version="true" />
+    <link href="~/css/Approvers.css" rel="stylesheet">
+    <script src="~/js/Approvers.js"></script>
+</head>
+<body>
+    <main id="main" class="main">
+        <div>
+            <p>Approval Workflow</p>
+        </div>
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Workflow Name</h5>
+                            <form asp-action="Index" method="post" class="row g-3">
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" placeholder="Eg. Purchase Agreement Approval">
+                                </div>
+                                <h5 class="card-title">Description</h5>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Address" id="floatingTextarea" style="height: 100px;"></textarea>
+                                        <label for="floatingTextarea"></label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <h5>Approval Type</h5>
+                                    <div>
+                                        <input type="radio" id="sequentialRadio" name="approvalType" value="sequential">
+                                        <label for="sequentialRadio">Sequential</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="parallelRadio" name="approvalType" value="parallel">
+                                        <label for="parallelRadio">Parallel</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <aside>
+                        <div class="approval-cards-container">
+                            <div class="card" id="sequentialCard">
+                                <div class="card-header">
+                                    <h5 class="card-title">Sequential Approval Workflow</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form asp-controller="ApprovalWorkflow" asp-action="SubmitAprovalRequest" method="post" id="approvalForm">
+                                        <div>
+                                            <label for="slaName">SLA Name:</label>
+                                            <input type="text" id="slaName" name="slaName" required>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-primary add-approver" onclick="addApprover()">Add Approver</button>
+                                        </div>
+                                        <ul id="approvers" class="approver-list">
+                                            <!-- Approvers will be dynamically added here -->
+                                        </ul>
+                                        <div>
+                                            <button type="submit" class="btn btn-success submit-btn">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Popup content for Sequential Approval -->
+                                <div id="sequentialPopup" class="popup-content" style="display: none;">
+                                    <div class="modal-content">
+                                        <span class="close" onclick="closeModal('sequentialPopup')">&times;</span>
+                                        <h2>Add Approver</h2>
+                                        <form>
+                                            <input type="email" id="sequentialApproverEmail" placeholder="Enter Approver Email">
+                                            <button type="button" class="btn" onclick="addApproverToSequential()">Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card parallel-approval-card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Parallel Approval Workflow</h6>
+                                    <form id="parallelApprovalForm">
+                                        <div>
+                                            <label for="parallelSlaName">SLA Name:</label>
+                                            <input type="text" id="parallelSlaName" required>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-primary add-approver" onclick="addParallelApprover()">Add Approver</button>
+                                        </div>
+                                        <ul id="parallelApprovers" class="approver-list">
+                                            <!-- Parallel Approvers will be dynamically added here -->
+                                        </ul>
+                                        <div>
+                                            <button type="submit" class="btn btn-success submit-btn">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Popup content for Parallel Approval -->
+                                <div id="parallelPopup" class="popup-content" style="display: none;">
+                                    <div class="modal-content">
+                                        <span class="close" onclick="closeModal('parallelPopup')">&times;</span>
+                                        <h2>Add Approver</h2>
+                                        <form>
+                                            <input type="email" id="parallelApproverEmail" placeholder="Enter Approver Email">
+                                            <button type="button" class="btn" onclick="addApproverToParallel()">Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,405 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<ContractManagementSystem.ViewModels.RoleViewModel>
+
+@{
+    ViewData["Title"] = "Application Roles";
+}
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+    }
+
+    .modal-content {
+        background-color: #F7F4EB;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%;
+        max-width: 500px;
+        position: relative;
+    }
+
+        .modal-content button {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+            .modal-content button:last-child {
+                margin-right: 0;
+            }
+
+    h1, h2 {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    p {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    #delete, .btn-custom-primary {
+        background-color: #007BFF;
+        border: none;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+        width: 50%;
+    }
+
+        #delete:hover {
+            background-color: dodgerblue;
+        }
+
+        .btn-custom-primary:hover {
+            background-color: dodgerblue;
+            ;
+        }
+
+    #cancel, .btn-custom-secondary {
+        background-color: grey;
+        border: none;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+        width: 50%;
+    }
+
+        #cancel:hover {
+            background-color: darkgrey;
+        }
+
+        .btn-custom-secondary:hover {
+            background-color: darkgrey;
+        }
+
+    #delete, #cancel, .btn-custom-primary, .btn-custom-secondary {
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    #firstPageButton, #lastPageButton {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+        #firstPageButton:active, #lastPageButton:active {
+            outline: none;
+        }
+
+</style>
+
+<!-- DataTables -->
+<link rel="stylesheet" href="~/AdminLte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/AdminLte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/AdminLte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+<body>
+    <main id="main" class="main">
+        <h2>ROLES</h2>
+        <p>
+            <button onclick="showCreateRoleModal()" class="btn btn-primary"><i class="fa fa-plus"></i> Create Role</button>
+        </p>
+        <div class="card">
+            <div class="card-body">
+                <table id="example1" class="table-bordered table-striped table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                Edit
+                            </th>
+                            <th>
+                                Delete
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @{
+                                            var permanentRoles = new string[] { "Admin", "Approver", "User Company", "User Individual" };
+                                            if (!permanentRoles.Contains(item.Name))
+                                            {
+                                                <a onclick="showEditRoleModal('@item.Id', '@item.Name')" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-primary" disabled title="Cannot edit the role"><i class="fa fa-pencil"></i> Edit</button>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (!permanentRoles.Contains(item.Name))
+                                            {
+                                                <button onclick="showDeleteModal('@item.Id')" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-danger" disabled title="Role cannot be deleted"><i class="fa fa-trash"></i> Delete</button>
+                                            }
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="2">No roles found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <!-- DataTables  & Plugins -->
+    <script src="~/AdminLte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/AdminLte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/AdminLte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/AdminLte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/AdminLte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/AdminLte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/AdminLte/plugins/jszip/jszip.min.js"></script>
+    <script src="~/AdminLte/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/AdminLte/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/AdminLte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/AdminLte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/AdminLte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+     <script>
+        $(document).ready(function () {
+            $('#example1').DataTable({
+                "processing": true, // Enable processing indicator
+                "serverSide": false, // Set to false for client-side processing
+                "order": [], // No initial ordering
+                "columnDefs": [
+                    { "orderable": false, "targets": "_all" }, // Disable ordering on all columns
+                    { "visible": true, "targets": "_all" } // Make all columns visible
+                ],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]] // Custom length menu options
+            });
+        });
+    </script>
+
+    <script>
+        function showDeleteModal(roleId) {
+            document.getElementById('deleteModal').style.display = 'block';
+            document.getElementById('delete').onclick = function () {
+                deleteRole(roleId);
+            };
+            document.getElementById('cancel').onclick = function () {
+                hideDeleteModal();
+            };
+        }
+
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function deleteRole(roleId) {
+            $.ajax({
+                url: '/AppRoles/DeleteRole',
+                type: 'POST',
+                data: { id: roleId },
+                success: function () {
+                    hideDeleteModal();
+                    location.reload(); // Reload the page to reflect the changes
+                },
+                error: function () {
+                    alert("An error occurred while trying to delete the role.");
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function showCreateRoleModal() {
+            document.getElementById('createRoleModal').style.display = 'block';
+        }
+
+        function hideCreateRoleModal() {
+            document.getElementById('createRoleModal').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('createRoleForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                var roleName = document.getElementById('roleName').value; // Get the role name from the input field
+                createRole(roleName);
+            });
+        });
+
+        function createRole(roleName) {
+            var formData = new FormData();
+            formData.append('Name', roleName); // Append the role name to the FormData object
+
+            $.ajax({
+                url: '/AppRoles/CreateRole',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    hideCreateRoleModal();
+                    location.reload(); // Reload the page to reflect the changes
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Checks if the response status is 400 (Bad Request)
+                    if (jqXHR.status === 400) {
+                        // Displays the error message from the server
+                        alert(jqXHR.responseText);
+                    } else {
+                        alert("An error occurred while trying to create the role.");
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function showEditRoleModal(roleId, roleName) {
+            document.getElementById('editRoleId').value = roleId;
+            document.getElementById('editRoleName').value = roleName;
+            document.getElementById('editRoleModal').style.display = 'block';
+        }
+        function hideEditRoleModal() {
+            document.getElementById('editRoleModal').style.display = 'none';
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('editRoleForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                var roleId = document.getElementById('editRoleId').value;
+                var roleName = document.getElementById('editRoleName').value;
+                editRole(roleId, roleName);
+            });
+        });
+
+        function editRole(roleId, roleName) {
+            var formData = new FormData();
+            formData.append('Id', roleId);
+            formData.append('Name', roleName);
+
+            $.ajax({
+                url: '/AppRoles/EditRole',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    hideEditRoleModal();
+                    location.reload();
+                },
+                error: function () {
+                    alert("An error occurred while trying to edit the role.");
+                }
+            });
+        }
+    </script>
+
+    <!-- Delete Modal HTML -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Delete Role</h2>
+            <p>Are you sure you want to delete this role?</p><br />
+            <div class="d-flex justify-content-center">
+                <button id="delete" class="btn btn-primary mr-2">Delete</button>
+                <button id="cancel" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Creating a Role -->
+    <div id="createRoleModal" class="modal">
+        <div class="modal-content">
+            <h2>Create Role</h2>
+            <form id="createRoleForm">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="roleName" name="roleName" required>
+                    <label for="roleName">Role Name</label>
+                </div>
+                <br />
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-custom-primary mr-2">Save</button>
+                    <button type="button" onclick="hideCreateRoleModal()" class="btn btn-custom-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Editing a Role -->
+    <div id="editRoleModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Role</h2>
+            <form id="editRoleForm">
+                <input type="hidden" id="editRoleId" name="editRoleId">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="editRoleName" name="editRoleName" required>
+                    <label for="editRoleName">Role Name</label>
+                </div>
+                <br />
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-custom-primary mr-2">Save</button>
+                    <button type="button" onclick="hideEditRoleModal()" class="btn btn-custom-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>

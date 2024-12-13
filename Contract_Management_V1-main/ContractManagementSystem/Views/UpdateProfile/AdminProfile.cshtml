@@ -1,0 +1,93 @@
+﻿@model ContractManagementSystem.Models.AdminProfile
+
+@{
+    ViewData["Title"] = "Admin Profile";
+}
+@{
+   ViewBag.IncludeGlobalStyles = false;
+}
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/UpdateProfile.css" asp-append-version="true" />"
+
+<main id="main" class="main">
+<div class="main">
+    <div class="container1">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="form-container">
+        <form asp-action="Edit" asp-controller="AdminProfile" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmployeeNumber"></label>
+                <input asp-for="EmployeeNumber" class="form-control" />
+                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AuthorizationLevel"></label>
+                <select asp-for="AuthorizationLevel" class="form-control">
+                    <option value="" selected disabled hidden>Select</option>
+                    <option value="admin">Admin</option>
+                    <option value="approver">Approver</option>
+                </select>
+                <span asp-validation-for="AuthorizationLevel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AlternativePhoneNumber"></label>
+                <input asp-for="AlternativePhoneNumber" class="form-control" />
+                <span asp-validation-for="AlternativePhoneNumber" class="text-danger"></span>
+            </div>
+
+                <div class="button-container">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" id="cancelButton" class="btn btn-secondary">Cancel</button>
+                </div>
+
+        </form>
+    </div>
+</div>
+</main>
+
+<script>
+    document.getElementById('cancelButton').addEventListener('click', function () {
+        window.location.href = '@Url.Action("UsersProfile", "UpdateProfile")';
+    });
+</script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

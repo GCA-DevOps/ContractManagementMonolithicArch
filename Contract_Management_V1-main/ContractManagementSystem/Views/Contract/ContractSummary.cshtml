@@ -1,0 +1,251 @@
+﻿@using ContractManagementSystem.ViewModels
+@model CreateContractVm
+
+<main id="main" class="main">
+    <section>
+        <div class="row">
+            <!-- Tabs Section -->
+            <div class="col-md-7">
+                <!-- Adjust column width as needed -->
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
+                            <!-- Tab Headers -->
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#summary" aria-selected="false" role="tab">Summary</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#collaborators" aria-selected="true" role="tab">Collaborators</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#approval" aria-selected="false" role="tab">Approval</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#negotiation" aria-selected="false" role="tab">Negotiation</button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content pt-2">
+                            <!-- Summary Tab -->
+                            <div class="tab-pane fade show active pt-3" id="summary">
+                                <h5>Update Contract Details</h5>
+                                <h5>CONTRACTID: @ViewBag.thiscontract</h5>
+
+                                <form class="row g-3" asp-action="ContractSummary" method="post">
+                                    <input type="hidden" asp-for="ContractId" />
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                    <fieldset>
+                                        <legend>Contract Details</legend>
+
+                                        <div class="col-md-6">
+                                            <label asp-for="PartyName" class="form-label">CounterParty Name</label>
+                                            <input type="text" asp-for="PartyName" class="form-control" id="PartyName" disabled="@ViewBag.IsReadOnly" placeholder="CounterParty Name">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="Email" class="form-label">Email</label>
+                                            <input type="email" asp-for="Email" class="form-control" id="Email" disabled="@ViewBag.IsReadOnly" placeholder="Email">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="ContractType" class="form-label">Contract Type</label>
+                                            <input type="text" asp-for="ContractType" class="form-control" id="ContractType" disabled="@ViewBag.IsReadOnly" placeholder="Contract Type">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="RequesterName" class="form-label">Requester Name</label>
+                                            <input type="text" asp-for="RequesterName" class="form-control" id="RequesterName" disabled="@ViewBag.IsReadOnly" placeholder="Requester Name" />
+                                        </div>
+                                        <div class="col-md-6 mb-1">
+                                            @if (ViewBag.Departments != null)
+                                            {
+                                                <div class="form-group">
+                                                    <label asp-for="SelectedDepartment">Department</label>
+                                                    <select asp-for="SelectedDepartment" class="form-control" disabled="@ViewBag.IsReadOnly" asp-items="@(ViewBag.Departments as SelectList)">
+                                                        <option value="">Select Department</option>
+                                                    </select>
+                                                    <span asp-validation-for="SelectedDepartment" class="text-danger"></span>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="ContractValue" class="form-label">Contract Value</label>
+                                            <input type="text" class="form-control" asp-for="ContractValue" id="ContractValue" disabled="@ViewBag.IsReadOnly">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="PaymentStructure" class="form-label">Payment Structure</label>
+                                            <input type="text" class="form-control" id="PaymentStructure" asp-for="PaymentStructure" disabled="@ViewBag.IsReadOnly">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="StartDate">Contract Effective Date</label>
+                                            <input asp-for="StartDate" class="form-control" id="StartDate" disabled="@ViewBag.IsReadOnly" placeholder="Select start date" autocomplete="on">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EndDate">Contract End Date</label>
+                                            <input asp-for="EndDate" class="form-control" id="EndDate" disabled="@ViewBag.IsReadOnly" placeholder="Select End date" autocomplete="on">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label">Contract Term:</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" asp-for="ContractTerm" value="Definite" disabled="@ViewBag.IsReadOnly" /> Definite
+                                                </label>
+                                                <br />
+                                                <input type="radio" asp-for="ContractTerm" value="Indefinite" disabled="@ViewBag.IsReadOnly" /> Indefinite
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="TerminationNoticePeriod">Termination Notice Period (Optional)</label>
+                                            <div class="input-group">
+                                                <input asp-for="TerminationNoticePeriod" class="form-control" id="TerminationNoticePeriod" disabled="@ViewBag.IsReadOnly" placeholder="E.g. 30" autocomplete="on">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Days</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div>
+                                        <button class="btn btn-primary" disabled="@ViewBag.IsReadOnly" type="submit">
+                                            <i class="fa fa-plus"></i> Update Contract
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Collaborators Tab -->
+                            <div class="tab-pane fade pt-3" id="collaborators">
+                                @if (TempData["CurrentContract"] != null)
+                                {
+                                    <h5>CONTRACTID:@TempData["CurrentContract"]</h5>
+                                }
+                                <div>
+                                    <p>Share contracts with members of your organization to collaborate</p>
+                                </div>
+
+                                <form asp-controller="Collaboration" asp-action="AddCollaborator" method="post">
+                                    <input type="hidden" name="contractId" value="@ViewData["CurrentContractId"]" />
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-sm-4 col-form-label">Collaborator Email</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" name="email" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-4 col-form-label">Permissions</label>
+                                        <div class="col-sm-8">
+                                            <select name="permissionLevel" class="form-select">
+                                                <option value="1">View Only</option>
+                                                <option value="2">Edit Fields</option>
+                                                <option value="3">Comment Only</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="notifyByEmail" id="notifyByEmail">
+                                        <label class="form-check-label" for="notifyByEmail">
+                                            Notify through Email
+                                        </label>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="message" class="col-sm-4 col-form-label">Message (Optional)</label>
+                                        <div class="col-sm-8">
+                                            <textarea name="message" class="form-control" style="height: 100px"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="text-center col-6">
+                                            <button type="submit" class="btn btn-primary">Share</button>
+                                        </div>
+                                        <div class="text-center col-6">
+                                            <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "Contract")'">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Approval Tab -->
+                            <div class="tab-pane fade pt-3" id="approval">
+                                @if (TempData["CurrentContract"] != null)
+                                {
+                                    <h5>CONTRACTID:@TempData["CurrentContract"]</h5>
+                                }
+                                <div>
+                                    <p>Share contracts with members of your organization to approve</p>
+                                </div>
+                                <form>
+                                    <a asp-controller="Contract" asp-action="ApprovalWorkflow" class="btn btn-info">
+                                        Proceed to Approval Workflow
+                                    </a>
+                                </form>
+                            </div>
+
+                            <!-- Negotiation Tab -->
+                            <div class="tab-pane fade pt-3" id="negotiation">
+                                @if (TempData["CurrentContract"] != null)
+                                {
+                                    <h5>CONTRACTID:@TempData["CurrentContract"]</h5>
+                                }
+                                <div>
+                                    <p>Share contracts with members of your organization to negotiate</p>
+                                </div>
+                                <form>
+                                    <a asp-controller="Contract" asp-action="NegotiationHistory" class="btn btn-info">
+                                        Proceed to Negotiation
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quill Editor Section -->
+            <div class="col-md-5">
+                <!-- Adjust column width as needed -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5>CONTRACTID:@TempData["CurrentContract"]</h5>
+                        <div id="editor-container" style="height: 400px;"></div> <!-- Quill Editor Container -->
+                        <!-- Hidden input to store the editor content -->
+                        <input type="hidden" id="editorContent" name="editorContent">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <!-- Include Quill Editor CSS and JS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <!-- Your existing scripts -->
+    <script src="~/js/Collaborator.js"></script>
+
+    <script>
+        $(function () {
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+            }
+
+            $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                localStorage.setItem('activeTab', $(e.target).attr('data-bs-target'));
+            });
+        });
+
+        // Initialize Quill editor
+        document.addEventListener("DOMContentLoaded", function () {
+            var quill = new Quill('#editor-container', {
+                theme: 'snow'  // You can use 'bubble' for a different theme
+            });
+
+            // Function to handle form submission
+            document.querySelector('form').addEventListener('submit', function () {
+                var htmlContent = quill.root.innerHTML;
+                document.getElementById('editorContent').value = htmlContent;
+            });
+        });
+    </script>
+}

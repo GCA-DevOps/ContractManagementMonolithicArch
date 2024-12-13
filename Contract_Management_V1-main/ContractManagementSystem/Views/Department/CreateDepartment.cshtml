@@ -1,0 +1,18 @@
+﻿@using ContractManagementSystem.ViewModels;
+@model DepartmentVm;
+
+
+<main id="main" class="main">
+<h5>Create Department</h5>
+<div class="row">
+    <form method="post" asp-action="CreateDepartment">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <select asp-for="SelectedDepartment" asp-items="Html.GetEnumSelectList<Predefined_Departments>()">
+            <option value="">Please select a department</option>
+        </select>
+        <span asp-validation-for="SelectedDepartment" class="text-danger"></span>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</main>

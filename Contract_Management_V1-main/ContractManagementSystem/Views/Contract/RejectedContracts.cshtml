@@ -1,0 +1,100 @@
+﻿@model List<Contract>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Contracts</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <!-- DataTables Buttons CSS for Export -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+
+    <!-- Bootstrap CSS (Optional for better styling) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <main id="main" class="main">
+        <h5>Rejected Contracts</h5>
+
+        <table id="rejectedContractsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Contract ID</th>
+                    <th>Contract Type</th>
+                    <th>Requester Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contract in Model)
+                {
+                    <tr>
+                        <td>@contract.Id</td>
+                        <td>@contract.ContractType</td>
+                        <td>@contract.RequesterName</td>
+                        <td>@contract.EffectiveDate.ToString("yyyy-MM-dd")</td>
+                        <td>@contract.EndDate.ToString("yyyy-MM-dd")</td>
+                        <td>@contract.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <!-- DataTables Buttons JS for Export -->
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+
+    <!-- Bootstrap JS (Optional for better styling) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#rejectedContractsTable').DataTable({
+                "pageLength": 10, // Set the number of entries per page
+                "dom": 'Bfrtip', // 'B' for buttons, 'f' for search, 'r' for processing, 't' for table, 'i' for info, 'p' for pagination
+                "buttons": [
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Export to PDF',
+                        title: 'Rejected Contracts Report',
+                        exportOptions: {
+                            columns: ':visible' // Export all visible columns
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Export to Excel',
+                        title: 'Rejected Contracts Report',
+                        exportOptions: {
+                            columns: ':visible' // Export all visible columns
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Print',
+                        title: 'Rejected Contracts Report',
+                        exportOptions: {
+                            columns: ':visible' // Export all visible columns
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

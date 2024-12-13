@@ -1,0 +1,51 @@
+﻿@model ContractManagementSystem.Models.ManagePrivilegesViewModel
+
+@{
+    ViewData["Title"] = "Manage Privileges";
+}
+<main id="main" class="main">
+    <h2>@ViewData["Title"]</h2>
+    <h4>@Model.RoleName</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="ManagePrivileges" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="RoleId" />
+                <div class="form-group">
+                    <label asp-for="RoleName" class="control-label"></label>
+                    <input asp-for="RoleName" class="form-control" disabled />
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Privilege</th>
+                            <th>Assigned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Privileges.Count; i++)
+                        {
+                            <tr>
+                                <td>@Model.Privileges[i].Name</td>
+                                <td>
+                                    <input type="checkbox" asp-for="Privileges[i].Assigned" />
+                                    <input type="hidden" asp-for="Privileges[i].Id" value="@Model.Privileges[i].Id" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</main>

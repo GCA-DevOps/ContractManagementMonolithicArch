@@ -1,0 +1,139 @@
+﻿.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Filter Dropdown */
+.dropdown .btn {
+    width: 200px; /* Adjust width as needed */
+}
+
+.dropdown-menu {
+    min-width: 200px; /* Ensure dropdown menu is wide enough */
+}
+
+/* Active filter styling */
+.dropdown-item.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    margin: 10px 0;
+    border-collapse: collapse;
+}
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .table thead th {
+        background-color: #f4f4f4;
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Alternate row colors */
+    .table tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    /* Hover effect */
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Responsive text */
+    .table td {
+        font-size: 12px;
+    }
+
+@media (max-width: 768px) {
+    .table td, .table th {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tbody tr {
+        display: block;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .table tbody td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 45%;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+}
+
+.dropdown-menu {
+    min-width: 150px;
+}
+
+.dropdown-item {
+    font-size: 14px;
+    padding: 10px 15px;
+}
+
+    .dropdown-item i {
+        margin-right: 5px;
+    }
+
+    .dropdown-item.text-danger {
+        color: #dc3545;
+    }
+
+        .dropdown-item.text-danger:hover {
+            background-color: #f8d7da;
+        }
+
+.fa {
+    font-size: 12px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+    .pagination a, .pagination span {
+        display: inline-block;
+        padding: 8px 16px;
+        margin: 0 2px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+        color: #007bff;
+        background-color: #fff;
+    }
+
+        .pagination a:hover {
+            background-color: #e9ecef;
+        }
+
+    .pagination .active {
+        font-weight: bold;
+        background-color: #007bff;
+        color: white;
+    }

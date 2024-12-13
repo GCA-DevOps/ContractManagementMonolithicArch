@@ -1,0 +1,65 @@
+﻿<main id="main" class="main">
+
+
+    <div class="row gap-4">
+        <div class="col-3">
+            <i class="fa-solid fa-users-gear fa-5x"></i>
+            <div class="container mt-5">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Manage Employees
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item active" asp-controller="Account" asp-action="CreateEmployee">Create Employee</a></li>
+                        <li><a class="dropdown-item" href="#">Delete Employee</a></li>
+                        <li><a class="dropdown-item" href="#">Change Role</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <i class="fa-solid fa-users-gear fa-6x"></i>
+            <div class="container mt-5">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        Manage UserCompany
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><a class="dropdown-item active" asp-controller="Account" asp-action="CreateVendorCompany">Create UserCompany</a></li>
+                        <li><a class="dropdown-item" href="#">Delete UserCompany</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <i class="fa-solid fa-users-gear fa-6x"></i>
+            <div class="container mt-5">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                        Manage UserIndividual
+                    </button>
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="manageUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Manage Users
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="manageUserDropdown">
+                            <li><a class="dropdown-item" href="@Url.Action("ManageUsers", "Admin", new { userType = "Employees" })">Employees</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("ManageUsers", "Admin", new { userType = "UserCompany" })">UserCompany</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("ManageUsers", "Admin", new { userType = "UserIndividual" })">UserIndividual</a></li>
+                        </ul>
+                    </div>
+
+                    <!--<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton3">
+                        <li><a class="dropdown-item active" asp-controller="Account" asp-action="CreateVendorIndividual">Create UserIndividual</a></li>
+                        <li><a class="dropdown-item" href="#">Delete CreateVendorIndividual</a></li>-->
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
