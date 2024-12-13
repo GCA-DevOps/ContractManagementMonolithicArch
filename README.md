@@ -1,4 +1,4 @@
-# ContractManagementCleanArch
+# ContractManagementmonolithicArch
 
 * Effie njoki
 * Lucy Wachiye
