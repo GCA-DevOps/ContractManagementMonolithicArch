@@ -9,7 +9,6 @@ namespace CMS.Domain.Entities.Approval
         public string? Email { get; set; }
         public int OrderNumber { get; set; }  
         public ApprovalState ApprovalState { get; set; }
-        public string ApprovalStatus { get; set; } = string.Empty;
     }
 
 }
