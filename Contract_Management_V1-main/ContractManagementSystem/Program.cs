@@ -8,6 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Listen on port 3000 for all network interfaces
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(3000);  
+});
+
+
+
 // Add services to the container
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
