@@ -1,0 +1,39 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ContractManagementSystemContextConnection=${ContractManagementSystemContextConnection}
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD} 
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - "1433:1433" 
+    networks:
+      - app-network
+    volumes:
+      - msdata:/var/opt/mssql
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  msdata:
+    driver: local
+

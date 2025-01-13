@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ContractManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class mau : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,6 +76,58 @@ namespace ContractManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClauseLibrary",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClauseType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClauseLibrary", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Collaborators",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ContractId = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PermissionLevel = table.Column<int>(type: "int", nullable: false),
+                    NotifyByEmail = table.Column<bool>(type: "bit", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Collaborators", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContractTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContractTemplates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -286,54 +338,6 @@ namespace ContractManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClauseLibrary",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClauseType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClauseLibrary", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ClauseLibrary_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContractTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TemplateType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContractTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ContractTemplates_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Contracts",
                 columns: table => new
                 {
@@ -347,7 +351,9 @@ namespace ContractManagementSystem.Migrations
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IsApprovalSent = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ContractValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ContractParty = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -491,7 +497,8 @@ namespace ContractManagementSystem.Migrations
                         name: "FK_ContractParties_Contracts_ContractId",
                         column: x => x.ContractId,
                         principalTable: "Contracts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ContractParties_Parties_PartyId",
                         column: x => x.PartyId,
@@ -591,11 +598,6 @@ namespace ContractManagementSystem.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClauseLibrary_AppUserId",
-                table: "ClauseLibrary",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ContractDocuments_ContractId",
                 table: "ContractDocuments",
                 column: "ContractId");
@@ -619,11 +621,6 @@ namespace ContractManagementSystem.Migrations
                 name: "IX_Contracts_RequestedDepartment",
                 table: "Contracts",
                 column: "RequestedDepartment");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContractTemplates_AppUserId",
-                table: "ContractTemplates",
-                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentId",
@@ -673,6 +670,9 @@ namespace ContractManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "ClauseLibrary");
+
+            migrationBuilder.DropTable(
+                name: "Collaborators");
 
             migrationBuilder.DropTable(
                 name: "ContractDocuments");
