@@ -1,6 +1,6 @@
 # ContractManagementmonolithicArch
 
 ## Deployment Team
-* Effie njoki
+* Effie Njoki
 * Lucy Wachiye
 * Jeff Mbita
