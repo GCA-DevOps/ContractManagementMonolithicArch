@@ -1,6 +1,6 @@
 # environment variables
 region       = "us-east-1"
-project_name = "cmsTeam5"
+project_name = "cmsteam5"
 environment  = "dev"
 
 # vpc variables
@@ -23,11 +23,11 @@ rds_db_name                  = "postgres"
 
 # acm variables
 domain_name       = "effiecancode.buzz"
-alternative_names = "cmsteam5.effiecancode.buzz"
+alternative_names = "www.effiecancode.buzz"
 certificate_arn = ""
 
 # route-53 variables
-record_name = "cmsteam5"
+record_name = "effiecancode.buzz"
 
 # ec2 variables
 ec2_key_name = "cms-t5"
