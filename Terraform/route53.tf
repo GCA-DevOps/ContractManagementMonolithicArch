@@ -1,17 +1,17 @@
-# Route 53 Hosted Zone (Assumes you already have the domain)
-data "aws_route53_zone" "primary" {
-  name = "team5"
+# get hosted zone details
+data "aws_route53_zone" "hosted_zone" {
+  name = var.domain_name
 }
 
-# A Record for the Application
-resource "aws_route53_record" "app" {
-  zone_id = data.aws_route53_zone.primary.zone_id
-  name    = "app"
+# create a record set in route 53
+resource "aws_route53_record" "site_domain" {
+  zone_id = data.aws_route53_zone.hosted_zone.zone_id
+  name    = var.record_name
   type    = "A"
 
   alias {
-    name                   = aws_lb.main.dns_name
-    zone_id                = aws_lb.main.zone_id
+    name                   = aws_lb.application_load_balancer.dns_name
+    zone_id                = aws_lb.application_load_balancer.zone_id
     evaluate_target_health = true
   }
 }
