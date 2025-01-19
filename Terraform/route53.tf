@@ -1,6 +1,6 @@
 # Route 53 Hosted Zone (Assumes you already have the domain)
 data "aws_route53_zone" "primary" {
-  name = "wachiyecloud.cc."
+  name = "team5"
 }
 
 # A Record for the Application
