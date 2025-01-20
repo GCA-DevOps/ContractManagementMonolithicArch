@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Listen on port 3000 for all network interfaces
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(3000);  
+    options.ListenAnyIP(3000);
 });
 
 
@@ -39,9 +39,16 @@ builder.Services.AddScoped<ICollaborationService, CollaborationService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
 // Add DbContext and specify the connection string
+// var connectionString = builder.Configuration.GetConnectionString("ContractManagementSystemContextConnection");
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlServer(connectionString));
+
 var connectionString = builder.Configuration.GetConnectionString("ContractManagementSystemContextConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseNpgsql(connectionString));
+
+
 
 // Add Identity services
 builder.Services.AddIdentity<AppUser, ApplicationRole>(options =>

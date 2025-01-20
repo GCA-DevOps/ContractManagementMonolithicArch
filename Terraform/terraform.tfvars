@@ -14,11 +14,11 @@ private_data_subnet_az2_cidr = "10.0.5.0/24"
 
 # rds variables
 multi_az_deployment          = "false"
-database_instance_identifier = "app-db"
-database_instance_class      = "db.t3.micro"
+database_instance_identifier = "teamapp-db"
+database_instance_class      = "db.t2.micro"
 publicly_accessible          = "false"
 username                     = "postgres"
-db-password                     = "postgres"
+db-password                  = "postgres"
 rds_db_name                  = "postgres"
 
 # acm variables
@@ -31,4 +31,4 @@ record_name = "effiecancode.buzz"
 
 # ec2 variables
 ec2_key_name = "cms-t5"
-ec2_instance_type = "t2-micro"
+ec2_instance_type = "t2.micro"
