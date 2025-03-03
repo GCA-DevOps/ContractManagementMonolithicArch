@@ -1,5 +1,5 @@
 # environment variables
-region       = "us-east-1"
+region       = "us-west-2"
 project_name = "cmsteam5"
 environment  = "dev"
 
